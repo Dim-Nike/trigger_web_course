@@ -275,12 +275,17 @@
 							<form action="" method="POST">
 								<div class="asset__btns">
 										{% csrf_token %}
-										{% if el.price.is_price %}
-											<button class="asset__btn asset__btn--clr" type="submit">Купить - {{ el.price.price }} ₽</button>
+										{% if show_text_btn %}
+											{% if el.price.is_price %}
+												<button class="asset__btn asset__btn--clr" type="submit">Купить - {{ el.price.price }} ₽</button>
+											{% else %}
+												<button class="asset__btn asset__btn--clr" type="submit">Получить бесплатно</button>
+											{% endif %}
+											<a href="#modal-bid" class="asset__btn open-modal">Ввести купон</a>
 										{% else %}
-											<button class="asset__btn asset__btn--clr" type="submit">Получить бесплатно</button>
+												<button class="asset__btn asset__btn--clr" type="submit">Отказаться от курса</button>
+												<a href="#modal-bid" class="asset__btn open-modal">Ввести купон</a>
 										{% endif %}
-									<a href="#modal-bid" class="asset__btn open-modal">Ввести купон</a>
 								</div>
 							</form>
 						<!-- end actions -->

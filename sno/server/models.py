@@ -90,3 +90,32 @@ class Course(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class CoursesChapterCheck:
+    class Meta:
+        verbose_name = 'Проверка глав курсов'
+        verbose_name_plural = 'Проверки глав курсов'
+
+    name_chapter = models.CharField(verbose_name='Наименование главы', max_length=155)
+    is_passed = models.BooleanField(verbose_name='Пройдено')
+    is_accepted = models.BooleanField(verbose_name='Принято')
+    comment = models.TextField(verbose_name='Комментарий админа')
+    comment_user = models.TextField(verbose_name='Комментарий пользователя')
+
+class CoursesCheck(models.Model):
+    class Meta:
+        verbose_name = 'Проверка курсов'
+        verbose_name_plural = 'Проверки курсов'
+
+    student = models.ForeignKey(Student, verbose_name='Пользователь', on_delete=models.PROTECT)
+    course = models.ForeignKey(Course, verbose_name='Курс', on_delete=models.PROTECT)
+    chapter_many = models.ManyToManyField(CoursesChapterCheck, verbose_name='Главы', null=True, blank=True)
+    is_finish = models.BooleanField(verbose_name='Пройден')
+    comment = models.TextField(verbose_name='Комментарий', null=True, blank=True)
+
+
+
+
+
+

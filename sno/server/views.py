@@ -30,23 +30,37 @@ def show_home(req):
 
 def show_item(req, pk):
     if req.user.is_authenticated:
+
         auth_student = Student.objects.get(user=req.user)
 
-        data = {
-            'courses': Course.objects.filter(id=pk),
-            'auth_students': auth_student,
-            'other_courses': Course.objects.exclude(id=pk),
-        }
+
 
         if req.method == 'POST':
             new_course = Course.objects.get(id=pk)
             if new_course not in auth_student.courses.all():
                 auth_student.courses.add(new_course)
                 new_course.student_many.add(auth_student)
+                new_course.save()
                 auth_student.count_point += new_course.start_point
+                auth_student.save()
             else:
-                print('Курс уже добавлен')
+                auth_student.courses.remove(new_course)
+                new_course.student_many.remove(auth_student)
+                new_course.save()
+                auth_student.count_point -= new_course.start_point
+                auth_student.save()
 
+        if Course.objects.get(id=pk) not in auth_student.courses.all():
+            show_text_btn = True
+        else:
+            show_text_btn = False
+
+        data = {
+            'courses': Course.objects.filter(id=pk),
+            'auth_students': auth_student,
+            'other_courses': Course.objects.exclude(id=pk),
+            'show_text_btn': show_text_btn
+        }
 
         return render(req, 'server/item2.html', data)
     else:
