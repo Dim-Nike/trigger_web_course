@@ -13,6 +13,9 @@ class Student(models.Model):
     projects = models.ManyToManyField('Project', verbose_name='Проекты', blank=True, null=True)
     courses = models.ManyToManyField('Course', verbose_name='Курсы', blank=True, null=True)
 
+    def __str__(self):
+        return self.user.username
+
 
 class Project(models.Model):
     pass
@@ -92,16 +95,36 @@ class Course(models.Model):
         return self.name
 
 
-class CoursesChapterCheck:
+class CoursesChapterCheck(models.Model):
     class Meta:
         verbose_name = 'Проверка глав курсов'
         verbose_name_plural = 'Проверки глав курсов'
 
+    FEEDBACK_FIELDS = [
+        ('1', 'Увллекательно'),
+        ('2', 'Легко'),
+        ('3', 'Сложно'),
+        ('4', 'Не понятно'),
+        ('5', 'Скучно'),
+    ]
+
     name_chapter = models.CharField(verbose_name='Наименование главы', max_length=155)
-    is_passed = models.BooleanField(verbose_name='Пройдено')
-    is_accepted = models.BooleanField(verbose_name='Принято')
-    comment = models.TextField(verbose_name='Комментарий админа')
-    comment_user = models.TextField(verbose_name='Комментарий пользователя')
+    is_user_lecture = models.BooleanField(verbose_name='Пройдена лекция')
+    is_user_practice = models.BooleanField(verbose_name='Пройдена практика')
+    is_admin_practice = models.BooleanField(verbose_name='Принята практика')
+    is_admin_lecture = models.BooleanField(verbose_name='Принята лекция')
+    is_accepted = models.BooleanField(verbose_name='В процессе')
+    comment = models.TextField(verbose_name='Комментарий админа', null=True, blank=True)
+    comment_user = models.TextField(verbose_name='Отзыв о лекции', null=True, blank=True)
+    feedback = models.CharField(verbose_name='Оценка главы', choices=FEEDBACK_FIELDS, max_length=1)
+    note_user = models.CharField(verbose_name='Замечания', max_length=155, null=True, blank=True)
+    glossary_user = models.CharField(verbose_name='Отзыв о практике', max_length=155, null=True, blank=True)
+    data_start = models.DateTimeField(verbose_name='Дата начала', blank=True, null=True)
+    data_end = models.DateTimeField(verbose_name='Дата окончания', blank=True, null=True)
+
+    def __str__(self):
+        return f'{self.name_chapter} - Стадия - {self.is_accepted}'
+
 
 class CoursesCheck(models.Model):
     class Meta:
@@ -109,8 +132,8 @@ class CoursesCheck(models.Model):
         verbose_name_plural = 'Проверки курсов'
 
     student = models.ForeignKey(Student, verbose_name='Пользователь', on_delete=models.PROTECT)
+    chapter_many = models.ManyToManyField(CoursesChapterCheck, verbose_name='Главы курса', blank=True, null=True)
     course = models.ForeignKey(Course, verbose_name='Курс', on_delete=models.PROTECT)
-    chapter_many = models.ManyToManyField(CoursesChapterCheck, verbose_name='Главы', null=True, blank=True)
     is_finish = models.BooleanField(verbose_name='Пройден')
     comment = models.TextField(verbose_name='Комментарий', null=True, blank=True)
 
