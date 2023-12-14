@@ -3,7 +3,7 @@ from datetime import datetime
 from django.contrib.auth import login, authenticate
 from django.shortcuts import render, redirect
 
-from .forms import StudentRegistrationForm, StudentLoginForm, ChapterCheckForm
+from .forms import StudentRegistrationForm, StudentLoginForm, ChapterCheckForm, PresentationForm
 from .models import *
 
 
@@ -22,7 +22,7 @@ def show_home(req):
             'courses_4': Course.objects.filter(cat__cat_id='tab-4'),
             'cat_courses': CoursesCat.objects.all(),
             'auth_students': auth_student,
-            'students': Student.objects.order_by('count_point'),
+            'students': Student.objects.order_by('-count_point'),
         }
 
         return render(req, 'server/index3.html', data)
@@ -52,7 +52,7 @@ def show_item(req, pk):
                         course=course,
                         is_finish=False
                     )
-                    for i, chapter in  enumerate(course.chapter.all()):
+                    for i, chapter in enumerate(course.chapter.all()):
                         if i == 0:
                             new_chapter_check = CoursesChapterCheck.objects.create(
                                 name_chapter=chapter,
@@ -109,12 +109,14 @@ def show_author(req):
         courses = auth_student.courses.all()
         check_courses = CoursesCheck.objects.filter(student=auth_student)
         form = ChapterCheckForm()
+        hackathons = Hackathon.objects.filter(is_active=True)
         data = {
             'courses': courses,
             'auth_students': auth_student,
             'check_courses': check_courses,
             'form': form,
-            'btn_send_check': ['Отправить лекции', 'Отправить практики', 'В ожидании', 'Следующая глава']
+            'btn_send_check': ['Отправить лекции', 'Отправить практики', 'В ожидании', 'Следующая глава'],
+            'hackathons': hackathons,
         }
 
         if req.method == 'POST':
@@ -172,10 +174,6 @@ def show_author(req):
                         print(el.name_chapter)
                         break
 
-
-
-
-
         return render(req, 'server/author.html', data)
     else:
         return redirect('login')
@@ -218,11 +216,55 @@ def show_login(req):
     return render(req, 'server/signin.html', data)
 
 
-
-
 def show_collection(req):
     return render(req, 'server/collection.html')
 
 
-def show_create(req):
-    return render(req, 'server/create.html')
+def show_create(req, pk):
+    if req.user.is_authenticated:
+        hackathon = Hackathon.objects.filter(id=pk)
+        auth_student = Student.objects.get(user=req.user)
+        team_hackathon = Participants.objects.filter(team=Student.objects.get(user=req.user), is_active=True)
+        form = PresentationForm(req.POST)
+        data = {
+            'form': form,
+            'auth_students': auth_student,
+            'hackathon': hackathon,
+            'auth_student': auth_student,
+            'teams': team_hackathon
+
+        }
+        if req.method == 'POST':
+            file = form.cleaned_data['file']
+            linkGitHub = form.cleaned_data['linkGitHub']
+            description = form.cleaned_data['description']
+
+            print('File:', file)
+            print('Link to GitHub:', linkGitHub)
+            print('Description:', description)
+            print('Type:', type)
+        return render(req, 'server/create.html', data)
+
+    else:
+        return redirect('login')
+
+
+def show_hackathon(req, pk):
+    if req.user.is_authenticated:
+        hackathon = Hackathon.objects.filter(id=pk)
+        auth_student = Student.objects.get(user=req.user)
+        team_hackathon = Participants.objects.filter(team=Student.objects.get(user=req.user), is_active=True)
+        data = {
+            'auth_students': auth_student,
+            'hackathon': hackathon,
+            'auth_student': auth_student,
+
+        }
+
+        return render(req, 'server/article.html', data)
+    else:
+        return redirect('login')
+
+
+def show_prize(req):
+    return render(req, 'server/404.html')

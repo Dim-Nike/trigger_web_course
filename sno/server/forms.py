@@ -40,3 +40,29 @@ class ChapterCheckForm(forms.Form):
     def clean(self):
         cleaned_data = super().clean()
         return cleaned_data
+
+
+class PresentationForm(forms.Form):
+    type_choices = [
+        ('sale', 'Put on sale'),
+        ('instant', 'Instant sale price'),
+        ('unlock', 'Unlock one purchased')
+    ]
+
+    file = forms.FileField(
+        label='Загрузить презентацию',
+        widget=forms.FileInput(attrs={'class': 'sign__file-upload', 'accept': 'video/mp4,video/x-m4v,video/*,.png,.jpg,.jpeg'})
+    )
+    linkGitHub = forms.CharField(
+        label='Ссылка на GitHub',
+        widget=forms.TextInput(attrs={'class': 'sign__input', 'placeholder': 'Репозиторий должен быть публичным'})
+    )
+    description = forms.CharField(
+        label='Описание проекта',
+        widget=forms.Textarea(attrs={'class': 'sign__textarea', 'placeholder': 'Не более 1000 символов'})
+    )
+    type = forms.ChoiceField(
+        label='Type',
+        choices=type_choices,
+        widget=forms.RadioSelect(attrs={'name': 'type'})
+    )

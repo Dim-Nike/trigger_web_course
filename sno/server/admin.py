@@ -40,6 +40,28 @@ class CoursesChapterCheckAdmin(admin.ModelAdmin):
                    'is_admin_practice',  'is_accepted']
 
 
+class HackathonAdmin(admin.ModelAdmin):
+    list_display = ['name', 'date_start', 'date_end', 'is_active']
+    list_filter = ['is_active']
+
+
+class ParticipantsAdmin(admin.ModelAdmin):
+    list_display = ['name', 'type_project', 'is_active']
+    list_filter = ['type_project', 'is_active']
+
+
+class HackathonProjectsTypeAdmin(admin.ModelAdmin):
+    list_display = ['name', 'is_active']
+    list_filter = ['is_active']
+
+
+class CertificateConditionsAdmin(admin.ModelAdmin):
+    list_display = ['first_place', 'is_use_active_1', 'second_place', 'is_use_active_2',
+                    'third_place', 'is_use_active_3', 'is_active']
+
+    list_filter = ['is_active']
+
+
 admin.site.register(Student, StudentAdmin)
 admin.site.register(CoursesCat, CoursesCatAdmin)
 admin.site.register(CoursesChapter, CoursesChapterAdmin)
@@ -48,3 +70,8 @@ admin.site.register(CoursesPrice, CoursesPriceAdmin)
 admin.site.register(Course, CourseAdmin)
 admin.site.register(CoursesCheck, CoursesCheckAdmin)
 admin.site.register(CoursesChapterCheck, CoursesChapterCheckAdmin)
+admin.site.register(Hackathon, HackathonAdmin)
+admin.site.register(Participants, ParticipantsAdmin)
+admin.site.register(HackathonProjectsType, HackathonProjectsTypeAdmin)
+admin.site.register(CertificateConditions, CertificateConditionsAdmin)
+

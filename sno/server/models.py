@@ -12,6 +12,7 @@ class Student(models.Model):
     count_point = models.IntegerField(verbose_name='Количество баллов', default=0)
     projects = models.ManyToManyField('Project', verbose_name='Проекты', blank=True, null=True)
     courses = models.ManyToManyField('Course', verbose_name='Курсы', blank=True, null=True)
+    is_capitan = models.BooleanField(verbose_name='Капитан', default=False)
 
     def __str__(self):
         return self.user.username
@@ -136,6 +137,73 @@ class CoursesCheck(models.Model):
     course = models.ForeignKey(Course, verbose_name='Курс', on_delete=models.PROTECT)
     is_finish = models.BooleanField(verbose_name='Пройден')
     comment = models.TextField(verbose_name='Комментарий', null=True, blank=True)
+
+
+class Participants(models.Model):
+    class Meta:
+        verbose_name = 'Команда хакатона'
+        verbose_name_plural = 'Команды хакатона'
+
+    name = models.CharField(verbose_name='Название команды', max_length=155)
+    team = models.ManyToManyField(Student, verbose_name='Участники')
+    presentation = models.FileField(verbose_name='Презентация',
+                                    upload_to='hackathon/participants/presentation/%Y/%m/%d/', null=True, blank=True)
+    link_github = models.CharField(verbose_name='Ссылка на гитхаб', max_length=155, null=True, blank=True)
+    dsc = models.TextField(verbose_name='Описание проекта', null=True, blank=True)
+    type_project = models.CharField(verbose_name='Тип задания', max_length=155, null=True, blank=True)
+    is_active = models.BooleanField(verbose_name='Активно', default=True)
+    place = models.IntegerField(verbose_name='Занятое место', default=0, blank=True, null=True)
+
+
+class HackathonProjectsType(models.Model):
+    class Meta:
+        verbose_name = 'Тип задания в хакатоне'
+        verbose_name_plural = 'Типы заданий в хакатоне'
+
+    name = models.CharField(verbose_name='Название задания', max_length=155)
+    dsc = models.TextField(verbose_name='Описание задания')
+    is_active = models.BooleanField(verbose_name='Активно', default=True)
+
+
+class CertificateConditions(models.Model):
+    class Meta:
+        verbose_name = 'Условие сертификата'
+        verbose_name_plural = 'Условия сертификатов'
+
+    first_place = models.IntegerField(verbose_name='Баллы за 1-ое место')
+    is_use_active_1 = models.BooleanField(verbose_name='1 место')
+    second_place = models.IntegerField(verbose_name='Баллы за 2-ое место')
+    is_use_active_2 = models.BooleanField(verbose_name='2 место')
+    third_place = models.IntegerField(verbose_name='Баллы за 3-е место')
+    is_use_active_3 = models.BooleanField(verbose_name='3 место')
+    is_active = models.BooleanField(verbose_name='Активно', default=True)
+
+
+class Hackathon(models.Model):
+    class Meta:
+        verbose_name = 'Хакатон'
+        verbose_name_plural = 'Хакатоны'
+
+    name = models.CharField(verbose_name='Наименование', max_length=155)
+    date_start = models.DateTimeField(verbose_name='Начало мероприятия')
+    date_end = models.DateTimeField(verbose_name='Конец мероприятия')
+    dsc = models.TextField(verbose_name='Описание')
+    type_projects = models.ManyToManyField(HackathonProjectsType, verbose_name='Типы заданий')
+    presentation = models.FileField(verbose_name='Презентация',
+                                    upload_to='hackathon/presentation/%Y/%m/%d/', null=True, blank=True)
+    photo = models.FileField(verbose_name='Фотография', upload_to='hackathon/photo/%Y/%m/%d/')
+    team = models.ManyToManyField(Participants, verbose_name='Участвующие команды')
+    prize = models.ManyToManyField(CertificateConditions, verbose_name='Условия призов')
+    is_active = models.BooleanField(verbose_name='Активно', default=True)
+
+
+class SettingsHackathon(models.Model):
+    class Meta:
+        verbose_name = 'Общие настройки хакатона'
+        verbose_name_plural = 'Общие настройки хакатона'
+
+    start = models.BooleanField(verbose_name='Начать хакатон')
+    end = models.BooleanField(verbose_name='Завершить хакатон')
 
 
 

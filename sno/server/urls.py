@@ -10,8 +10,11 @@ urlpatterns = [
     path('item/<int:pk>', show_item, name='item'),
     path('author/', show_author, name='author'),
     path('collection/', show_collection, name='collection'),
-    path('create/', show_create, name='create'),
+    path('create/<int:pk>', show_create, name='create'),
     path('index/', show_index, name='index'),
+    path('hackathon/<int:pk>', show_hackathon, name='hackathon'),
+    path('TakeYourPrize/', show_prize, name='prize'),
+
 
 
 

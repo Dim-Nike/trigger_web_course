@@ -150,29 +150,29 @@
 					<div class="col-12">
 						<div class="hero owl-carousel" id="hero">
 							<div class="hero__slide" data-bg="img/home/slide1.jpg">
-								<h1 class="hero__title">Exclusive digital asset</h1>
-								<p class="hero__text">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour.</p>
+								<h1 class="hero__title">Лаборатория СНО ИС -<br> это твой путь к успеху в веб-разработке</h1>
+								<p class="hero__text">Стань лидером в веб-разработке вместе с лабораторией СНО ИС! У нас ты получишь не только теоретические знания, но и практический опыт работы с инновационными инструментами и технологиями. Присоединяйся к нам и стань лидером в своей области! </p>
 								<div class="hero__btns">
-									<a href="item2.html" class="hero__btn hero__btn--clr">More details</a>
-									<a href="item2.html" class="hero__btn">Place a bid</a>
+									<a href="item2.html" class="hero__btn hero__btn--clr">Присоединиться</a>
+									<a href="item2.html" class="hero__btn">Последние новости</a>
 								</div>
 							</div>
 
 							<div class="hero__slide" data-bg="img/home/slide2.jpg">
-								<h2 class="hero__title">Discover, collect, and sell <br>extraordinary NFTs</h2>
-								<p class="hero__text">Securely buy and sell unique digital collectibles. <br>Lowest transaction costs across all NFT markets guaranteed.</p>
+								<h2 class="hero__title"> Ваш успех начинается с TRIGGER WEB</h2>
+								<p class="hero__text">Пройдите курсы, получите баллы, поднимитесь в рейтинге и достигните всех своих целей!</p>
 								<div class="hero__btns">
-									<a href="explore.html" class="hero__btn hero__btn--clr">Explore</a>
-									<a href="signin.html" class="hero__btn">Create</a>
+									<a href="explore.html" class="hero__btn hero__btn--clr">Мои курсы</a>
+									<a href="signin.html" class="hero__btn">Новые курсы</a>
 								</div>
 							</div>
 
 							<div class="hero__slide" data-bg="img/home/slide3.jpg">
-								<h2 class="hero__title">Unitok – NFT Marketplace <br>HTML Template</h2>
-								<p class="hero__text">Digital marketplace for crypto collectibles and non-fungible tokens. <br>Buy, sell, and discover exclusive digital assets.</p>
+								<h2 class="hero__title">Профессиональное развитие и новые возможности ждут тебя в TRIGGER WEB! </h2>
+								<p class="hero__text">Мы ищем студентов, увлеченных разработкой сайтов и готовых пройти собеседование для трудоустройства в нашу компанию.</p>
 								<div class="hero__btns">
-									<a href="explore.html" class="hero__btn hero__btn--clr">Explore</a>
-									<a href="signin.html" class="hero__btn">Create</a>
+									<a href="explore.html" class="hero__btn hero__btn--clr">Подать заявку</a>
+									<a href="signin.html" class="hero__btn">Получить оффер</a>
 								</div>
 							</div>
 						</div>
@@ -229,7 +229,7 @@
 										<h3 class="card__title"><a href="{% url 'item' el.pk %}">{{ el.name }}</a></h3>
 										<div class="card__author card__author--verified">
 											<img src="{% static 'server/img/avatars/avatar2.jpg' %}" alt="">
-											<a href="author.html">@{{ el.author }}</a>
+											<a href="">@{{ el.author }}</a>
 										</div>
 										<div class="card__info">
 											<div class="card__price">
@@ -454,7 +454,7 @@
 				<!-- title -->
 				<div class="col-12">
 					<div class="main__title">
-						<h2><a href="authors.html">New Authors</a></h2>
+						<h2><a href="authors.html">Список участников</a></h2>
 					</div>
 				</div>
 				<!-- end title -->
@@ -463,164 +463,26 @@
 				<div class="col-12">
 					<div class="main__carousel-wrap">
 						<div class="main__carousel main__carousel--authors owl-carousel" id="authorsc">
-							<div class="author">
-								<a href="author.html" class="author__cover author__cover--bg" data-bg="img/bg/bg-small.png">
-								</a>
-								<div class="author__meta">
-									<a href="author.html" class="author__avatar author__avatar--verified">
-										<img src="{% static 'server/img/avatars/avatar.jpg' %}" alt="">
+							{% for user in students %}
+								<div class="author">
+									<a href="author.html" class="author__cover">
 									</a>
-									<h3 class="author__name"><a href="author.html">Adam Zapel</a></h3>
-									<h3 class="author__nickname"><a href="author.html">@aaarthur</a></h3>
-									<p class="author__text">All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary</p>
-									<div class="author__wrap">
-										<div class="author__followers">
-											<p>3829</p>
-											<span>Followers</span>
-										</div>
-										<button class="author__follow" type="button">Follow</button>
-									</div>
-								</div>
-							</div>
+									<div class="author__meta">
+										<a href="author.html" class="author__avatar author__avatar--verified">
+											<img src="{% static 'server/img/avatars/avatar2.jpg' %}" alt="">
+										</a>
+										<h3 class="author__name"><a href="author.html">#{{ user.user.username }}</a></h3>
+										<p class="author__text">{{ user.dsc }}</p>
+										<div class="author__wrap">
+											<div class="author__followers">
+												<p>{{ user.count_point }}</p>
+												<span>Количество баллов</span>
+											</div>
 
-							<div class="author">
-								<a href="author.html" class="author__cover">
-								</a>
-								<div class="author__meta">
-									<a href="author.html" class="author__avatar author__avatar--verified">
-										<img src="{% static 'server/img/avatars/avatar2.jpg' %}" alt="">
-									</a>
-									<h3 class="author__name"><a href="author.html">Barb E. Dahl</a></h3>
-									<h3 class="author__nickname"><a href="author.html">@nicky87</a></h3>
-									<p class="author__text">If you are going to use a passage of Lorem Ipsum</p>
-									<div class="author__wrap">
-										<div class="author__followers">
-											<p>4602</p>
-											<span>Followers</span>
 										</div>
-										<button class="author__follow" type="button">Follow</button>
 									</div>
 								</div>
-							</div>
-
-							<div class="author">
-								<a href="author.html" class="author__cover author__cover--bg" data-bg="img/bg/bg-small2.png">
-								</a>
-								<div class="author__meta">
-									<a href="author.html" class="author__avatar author__avatar--verified">
-										<img src="{% static 'server/img/avatars/avatar3.jpg' %}" alt="">
-									</a>
-									<h3 class="author__name"><a href="author.html">Biff Wellington</a></h3>
-									<h3 class="author__nickname"><a href="author.html">@neo</a></h3>
-									<p class="author__text">Many desktop publishing packages and web page editors now use Lorem</p>
-									<div class="author__wrap">
-										<div class="author__followers">
-											<p>1294</p>
-											<span>Followers</span>
-										</div>
-										<button class="author__follow author__follow--true" type="button">Unfollow</button>
-									</div>
-								</div>
-							</div>
-
-							<div class="author">
-								<a href="author.html" class="author__cover author__cover--bg" data-bg="img/bg/bg-small3.png">
-								</a>
-								<div class="author__meta">
-									<a href="author.html" class="author__avatar author__avatar--verified">
-										<img src="{% static 'server/img/avatars/avatar4.jpg' %}" alt="">
-									</a>
-									<h3 class="author__name"><a href="author.html">Charity Case</a></h3>
-									<h3 class="author__nickname"><a href="author.html">@midinh</a></h3>
-									<p class="author__text">There are many variations of passages of Lorem Ipsum</p>
-									<div class="author__wrap">
-										<div class="author__followers">
-											<p>10 845</p>
-											<span>Followers</span>
-										</div>
-										<button class="author__follow" type="button">Follow</button>
-									</div>
-								</div>
-							</div>
-
-							<div class="author">
-								<a href="author.html" class="author__cover"></a>
-								<div class="author__meta">
-									<a href="author.html" class="author__avatar author__avatar--verified">
-										<img src="{% static 'server/img/avatars/avatar5.jpg' %}" alt="">
-									</a>
-									<h3 class="author__name"><a href="author.html">Don Key</a></h3>
-									<h3 class="author__nickname"><a href="author.html">@kateblank</a></h3>
-									<p class="author__text">The generated Lorem Ipsum is therefore always free from repetition</p>
-									<div class="author__wrap">
-										<div class="author__followers">
-											<p>9713</p>
-											<span>Followers</span>
-										</div>
-										<button class="author__follow" type="button">Follow</button>
-									</div>
-								</div>
-							</div>
-
-							<div class="author">
-								<a href="author.html" class="author__cover author__cover--bg" data-bg="img/bg/bg-small4.png">
-								</a>
-								<div class="author__meta">
-									<a href="author.html" class="author__avatar author__avatar--verified">
-										<img src="{% static 'server/img/avatars/avatar6.jpg' %}" alt="">
-									</a>
-									<h3 class="author__name"><a href="author.html">Mona Lott</a></h3>
-									<h3 class="author__nickname"><a href="author.html">@fantraingle</a></h3>
-									<p class="author__text">All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary</p>
-									<div class="author__wrap">
-										<div class="author__followers">
-											<p>5 924</p>
-											<span>Followers</span>
-										</div>
-										<button class="author__follow" type="button">Follow</button>
-									</div>
-								</div>
-							</div>
-
-							<div class="author">
-								<a href="author.html" class="author__cover author__cover--bg" data-bg="img/bg/bg-small5.png">
-								</a>
-								<div class="author__meta">
-									<a href="author.html" class="author__avatar">
-										<img src="{% static 'server/img/avatars/avatar7.jpg' %}" alt="">
-									</a>
-									<h3 class="author__name"><a href="author.html">Orson Carte</a></h3>
-									<h3 class="author__nickname"><a href="author.html">@sc00ty</a></h3>
-									<p class="author__text">It is a long established fact that a reader will be distracted</p>
-									<div class="author__wrap">
-										<div class="author__followers">
-											<p>11 342</p>
-											<span>Followers</span>
-										</div>
-										<button class="author__follow" type="button">Follow</button>
-									</div>
-								</div>
-							</div>
-
-							<div class="author">
-								<a href="author.html" class="author__cover author__cover--bg" data-bg="img/bg/bg-small6.png">
-								</a>
-								<div class="author__meta">
-									<a href="author.html" class="author__avatar author__avatar--verified">
-										<img src="{% static 'server/img/avatars/avatar8.jpg' %}" alt="">
-									</a>
-									<h3 class="author__name"><a href="author.html">Ray Gunn</a></h3>
-									<h3 class="author__nickname"><a href="author.html">@justart</a></h3>
-									<p class="author__text">All the Lorem Ipsum generators on the Internet</p>
-									<div class="author__wrap">
-										<div class="author__followers">
-											<p>1245</p>
-											<span>Followers</span>
-										</div>
-										<button class="author__follow" type="button">Follow</button>
-									</div>
-								</div>
-							</div>
+							{% endfor %}
 						</div>
 
 						<button class="main__nav main__nav--prev" data-nav="#authorsc" type="button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17,11H9.41l3.3-3.29a1,1,0,1,0-1.42-1.42l-5,5a1,1,0,0,0-.21.33,1,1,0,0,0,0,.76,1,1,0,0,0,.21.33l5,5a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42L9.41,13H17a1,1,0,0,0,0-2Z"/></svg></button>
